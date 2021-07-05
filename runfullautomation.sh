@@ -7,7 +7,7 @@ automation_count=1
 serverport=8080
 sqlport=65432
 
-build_file_name="AdventNet_ManageEngine_ServiceDesk_Mac.zip"
+build_file_name="SupportCenterPlus_Mac.zip"
 
 #Getting present location
 AUTOMATION_PATH=$(pwd)
@@ -24,13 +24,14 @@ diffreport_folder="diffreport"
 
 logs_folder="logs"
 
-module_names="request;project"
+#module_names="request;project"
+module_names="request"
 
 cookies_file="cookies.txt"
 
 url_response_file="url_response.txt"
 
-build_urlpath="http://build/me/servicedeskplus/SERVICEDESKPLUS_REVIEWED/"
+build_urlpath="http://build.csez.zohocorpin.com/me/supportcenterplus/SUPPORTCENTERPLUS_MSP_11_BRANCH/"
 latest_build="?C=M;O=A"
 branch_name=$(echo $build_urlpath| cut -d'/' -f 6,7,8,9,10) && branch_name=${branch_name%?} && branch_name=${branch_name//\//_}
 build_date=$(date +%b_%d_%Y) 
@@ -501,7 +502,7 @@ if [ "$machinename" == "Linux" ]
     # #Shutdown EXE SETUP
     fuser -k $serverport/tcp
     fuser -k $sqlport/tcp
-    build_file_name="AdventNet_ManageEngine_ServiceDesk_linux_64bit.zip"
+    build_file_name="SupportCenterPlus_Linux64.zip"
   else
     lsof -ti:$serverport | xargs kill
     lsof -ti:$sqlport | xargs kill
@@ -539,9 +540,9 @@ then
   echo "index.html file downloaded" >> $automationinfo
   if [ "$machinename" == "Linux" ]
     then
-      exename="AdventNet_ManageEngine_ServiceDesk_linux_64bit.zip"
+      exename="SupportCenterPlus_Linux64.zip"
     else
-      exename=$(grep -o 'AdventNet_ManageEngine_ServiceDesk_[^(zip)]*\.zip' index.html | head -1)  # "AdventNet_ManageEngine_ServiceDesk_Mac.zip" #
+      exename=$(grep -o 'SupportCenterPlus_[^(zip)]*\.zip' index.html | head -1)  # "AdventNet_ManageEngine_ServiceDesk_Mac.zip" #
   fi
   echo "Getting the EXE file Name  from index.html:  $exename" >> $automationinfo
   rm index.html >> $automationinfo
@@ -554,7 +555,7 @@ else
   wget $latest_build_url_path >> $automationinfo  || exit
   mv "index.html$latest_build" index.html >> $automationinfo
   echo "index.html file downloaded" >> $automationinfo
-  exename=$(grep -o 'AdventNet_ManageEngine_ServiceDesk_[^(zip)]*\.zip' index.html | head -1)  # "AdventNet_ManageEngine_ServiceDesk_Mac.zip" #
+  exename=$(grep -o 'SupportCenterPlus_[^(zip)]*\.zip' index.html | head -1)  # "AdventNet_ManageEngine_ServiceDesk_Mac.zip" #
   echo "Getting the EXE file Name  :  $exename" >> $automationinfo
   if [ -n "$exename" ]
   then
@@ -609,11 +610,11 @@ unzip $AUTOMATION_PATH/$build_file_name -d $AUTOMATION_PATH  >> $automationinfo
 
 rm $AUTOMATION_PATH/$build_file_name >> $automationinfo
 
-buildPath="$AUTOMATION_PATH/AdventNet/ME/ServiceDesk"
+buildPath="$AUTOMATION_PATH"
 echo "buildPath is $buildPath" >> $automationinfo
 
 
-fixesfolder="$AUTOMATION_PATH/AdventNet/ME/ServiceDesk/fixes/"
+fixesfolder="$AUTOMATION_PATH/fixes/"
 mkdir $fixesfolder
 echo "fixesfolder is $fixesfolder" >> $automationinfo
 
